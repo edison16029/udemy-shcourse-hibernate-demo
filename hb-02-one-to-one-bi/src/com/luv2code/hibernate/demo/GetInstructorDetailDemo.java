@@ -8,7 +8,7 @@ import com.luv2code.hibernate.demo.entity.Instructor;
 import com.luv2code.hibernate.demo.entity.InstructorDetail;
 import com.luv2code.hibernate.demo.entity.Student;
 
-public class CreateDemo {
+public class GetInstructorDetailDemo {
 
 	public static void main(String[] args) {
 		
@@ -23,24 +23,28 @@ public class CreateDemo {
 		Session session = factory.getCurrentSession();
 		
 		try {
-
-			Instructor tempInstructor = new Instructor("Delin", "GJ", "berby@gmail.com");
-			
-			InstructorDetail tempInstructorDetail = new InstructorDetail("http://www.delin.com/youtube", "video");
-			
-			tempInstructor.setInstructorDetail(tempInstructorDetail);
 			
 			session.beginTransaction();
 			
-			//This will also save details object because of CascadeType.ALL
-			session.save(tempInstructor);
+			int theId = 44;
+			
+			InstructorDetail tempInstructorDetail = session.get(InstructorDetail.class, theId);
+			
+			System.out.println("tempInstructorDetail : " + tempInstructorDetail);
+			
+			System.out.println("the associated instructor " + tempInstructorDetail.getInstructor());
 			
 			session.getTransaction().commit();
 			
 			System.out.println("Donewe!");
 			
 		}
+		catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 		finally {
+			session.close();
 			factory.close();
 		}
 
